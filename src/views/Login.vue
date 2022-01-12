@@ -4,7 +4,7 @@
     <div class="card">
       <div class="card-body">
          <span class="text-danger" v-if= "errors.email">
-            {{ errors.email }}
+            {{ errors.email[0] }}
           </span>
         <div class="form-group">
           <label for="email">Email Address</label>
@@ -50,7 +50,7 @@ export default {
         })
         .catch(error => {
           if (error.response.status === 422) {
-            this.errors = error.response.data
+            this.errors = error.response.data.errors
           }
         })
     }
