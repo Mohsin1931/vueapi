@@ -9,7 +9,6 @@
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" class="form-control" v-model="form.email" id="email"/>
-
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -27,7 +26,7 @@
 </template>
 
 <script>
-import User from '../api/Users'
+
 export default {
   data () {
     return {
@@ -41,19 +40,31 @@ export default {
 
   methods: {
     login () {
-      User.login(this.form)
-        .then(response => {
-          // this.$root.$emit('isLoggedIn', true)
-          this.eventBus.emit('login', true)
-          localStorage.setItem('token', response.data)
-          this.$router.push({ name: 'Dashboard' })
+      this.$store
+        .dispatch('login', {
+          email: this.form.email,
+          password: this.form.password
+        })
+        .then(() => {
+          console.log(this.isAdmin())
+          if (this.isAdmin()) {
+            this.$router.push({ name: 'Dashboard' })
+          } else {
+            console.log('anout')
+            this.$router.push({ name: 'About' })
+          }
         })
         .catch(error => {
           if (error.response.status === 422) {
             this.errors = error.response.data.errors
           }
         })
+    },
+
+    isAdmin () {
+      return localStorage.getItem('role') === 'admin'
     }
   }
+
 }
 </script>

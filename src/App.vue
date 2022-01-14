@@ -1,6 +1,8 @@
 <template>
-  <nav-bar></nav-bar>
-  <router-view/>
+  <div id="app">
+    <nav-bar></nav-bar>
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -10,6 +12,14 @@ export default {
 
   components: {
     NavBar
+  },
+
+  created () {
+    const token = localStorage.getItem('token')
+    const role = localStorage.getItem('role')
+    if (token) {
+      this.$store.commit('setUserData', { role, token })
+    }
   }
 
 }

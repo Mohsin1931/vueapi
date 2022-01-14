@@ -14,6 +14,6 @@ export default {
   },
 
   auth () {
-    return Api().get('/user')
+    return Api().get('/users')
   }
 }

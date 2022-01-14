@@ -1,17 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import Home from '../views/Home.vue'
+import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
+import About from '../views/About'
 
 const routes = [
   {
     path: '/',
-    name: 'Dashboard',
-    component: Dashboard,
-    meta: { authOnly: true }
+    name: 'Home',
+    component: Home
   },
 
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
+    meta: { authOnly: true }
+  },
   {
     path: '/login',
     name: 'Login',
@@ -30,7 +36,7 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    meta: { authOnly: true }
+    meta: { adminOnly: true }
   }
 ]
 
@@ -41,6 +47,10 @@ const router = createRouter({
 
 function isLoggedIn () {
   return localStorage.getItem('token')
+}
+
+function isAdmin () {
+  return localStorage.getItem('role') === 'admin'
 }
 
 router.beforeEach((to, from, next) => {
@@ -58,12 +68,24 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.guestOnly)) {
     if (isLoggedIn()) {
       next({
-        path: '/dashboard',
+        path: '/about',
         query: { redirect: to.fullPath }
       })
     } else {
       next()
     }
+  } else if (to.matched.some(record => record.meta.adminOnly)) {
+    console.log(isAdmin())
+    if (isAdmin()) {
+      // next({
+      //   path: '/dashboard',
+      //   query: { redirect: to.fullPath }
+      // })
+      next()
+    }
+    // } else {
+    //   next()
+    // }
   } else {
     next()
   }
