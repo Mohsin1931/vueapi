@@ -14,6 +14,10 @@ export default {
   },
 
   auth () {
+    return Api().get('/user')
+  },
+
+  users () {
     return Api().get('/users')
   }
 }

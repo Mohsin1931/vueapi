@@ -14,11 +14,13 @@ export default {
     NavBar
   },
 
-  created () {
+  mounted () {
     const token = localStorage.getItem('token')
+    const user = JSON.parse(localStorage.getItem('user'))
     const role = localStorage.getItem('role')
+    console.log(user)
     if (token) {
-      this.$store.commit('setUserData', { role, token })
+      this.$store.commit('setUserData', { user, token, role })
     }
   }
 

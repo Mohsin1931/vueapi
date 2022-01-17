@@ -46,11 +46,11 @@ export default {
           password: this.form.password
         })
         .then(() => {
-          console.log(this.isAdmin())
+          // console.log(this.isAdmin())
           if (this.isAdmin()) {
             this.$router.push({ name: 'Dashboard' })
           } else {
-            console.log('anout')
+            // console.log('anout')
             this.$router.push({ name: 'About' })
           }
         })

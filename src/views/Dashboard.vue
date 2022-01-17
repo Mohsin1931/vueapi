@@ -41,7 +41,7 @@ export default {
   },
 
   mounted () {
-    User.auth().then(response => {
+    User.users().then(response => {
       // console.log(response.data[0])
       this.users = response.data
     })
